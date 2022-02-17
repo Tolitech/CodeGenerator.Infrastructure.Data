@@ -90,11 +90,8 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
                 try
                 {
                     Transaction.Commit();
-
-                    Task.Run(() =>
-                    {
-                        Audit(_audit);
-                    });
+                    
+                    Audit(_audit);
                 }
                 catch (Exception)
                 {
