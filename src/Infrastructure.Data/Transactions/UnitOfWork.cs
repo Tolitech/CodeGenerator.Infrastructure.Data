@@ -92,11 +92,20 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
                     Task.Run(() =>
                     {
                         // Auditing
-                        _mediator.Send(new Auditing.Trail.Commands.InsertItems.InsertItemsCommand { Items = _audit.Items });
+                        try
+                        {
+                            _mediator.Send(new Auditing.Trail.Commands.InsertItems.InsertItemsCommand { Items = _audit.Items });
+                        }
+                        catch(Exception ex)
+                        {
+                            Console.WriteLine(ex.ToString());
+                        }
                     });
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Console.WriteLine(ex.ToString());
+
                     Transaction.Rollback();
                     throw;
                 }
