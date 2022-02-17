@@ -16,7 +16,5 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
         DbConnection GetNewConnection();
 
         void AddContext(DbContext context);
-
-        void Audit(IAudit audit);
     }
 }

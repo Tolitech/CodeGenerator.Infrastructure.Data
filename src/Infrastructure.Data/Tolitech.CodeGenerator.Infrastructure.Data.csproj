@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Version>1.0.4-alpha-4</Version>
+    <Version>1.0.4-alpha-5</Version>
     <Authors>Tolitech</Authors>
     <Description>Infrastructure Data library for Tolitech Code Generator.</Description>
     <PackageProjectUrl>https://www.tolitech.com.br</PackageProjectUrl>
