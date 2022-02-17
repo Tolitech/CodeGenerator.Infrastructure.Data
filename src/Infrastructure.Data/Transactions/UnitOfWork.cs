@@ -81,6 +81,8 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
             _qtyTransactions++;
         }
 
+        public abstract void Audit(IAudit audit);
+
         public void Commit()
         {
             if (_qtyTransactions == 1)
@@ -91,21 +93,11 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
 
                     Task.Run(() =>
                     {
-                        // Auditing
-                        try
-                        {
-                            _mediator.Send(new Auditing.Trail.Commands.InsertItems.InsertItemsCommand { Items = _audit.Items });
-                        }
-                        catch(Exception ex)
-                        {
-                            Console.WriteLine(ex.ToString());
-                        }
+                        Audit(_audit);
                     });
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Console.WriteLine(ex.ToString());
-
                     Transaction.Rollback();
                     throw;
                 }
