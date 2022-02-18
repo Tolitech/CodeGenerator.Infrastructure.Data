@@ -14,14 +14,14 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Repositories
     {
         private readonly DbContext _context;
 
-        protected readonly IUnitOfWork? _uow;
+        protected readonly IUnitOfWork _uow;
         protected readonly ILogger _logger;
         protected readonly IAudit _audit;
 
         public Repository(IUnitOfWorkService uow, DbContext context, ILogger logger, IAudit audit)
         {
-            _uow = uow as IUnitOfWork;
-            
+            _uow = (IUnitOfWork)uow;
+
             _context = context;
             _logger = logger;
             _audit = audit;
@@ -35,17 +35,25 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Repositories
 
         #region Logger
 
-        public void LogRepositoryException(Exception ex, object param)
+        public void LogRepositoryException(Exception ex, object? param)
         {
             const string template = "SqlParams: {parameters}";
-            string parameters = JsonSerializer.Serialize(param, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            string? parameters = null;
+
+            if (param != null)
+                parameters = JsonSerializer.Serialize(param, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            
             _logger.LogWarning(ex, ex.Message + "\n" + template, parameters);
         }
 
-        public void LogRepositoryException(Exception ex, string sql, object param)
+        public void LogRepositoryException(Exception ex, string sql, object? param)
         {
             const string template = "Sql: {sql}" + "\n" + "SqlParams: {parameters}";
-            string parameters = JsonSerializer.Serialize(param, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            string? parameters = null;
+
+            if (param != null)
+                parameters = JsonSerializer.Serialize(param, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull });
+            
             _logger.LogWarning(ex, ex.Message + "\n" + template, sql, parameters);
         }
 

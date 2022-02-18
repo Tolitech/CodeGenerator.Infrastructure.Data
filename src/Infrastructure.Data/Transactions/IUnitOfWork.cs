@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
-using Tolitech.CodeGenerator.Auditing;
 
 namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : Domain.Services.IUnitOfWorkService
     {
         DbConnection Connection { get; }
 
