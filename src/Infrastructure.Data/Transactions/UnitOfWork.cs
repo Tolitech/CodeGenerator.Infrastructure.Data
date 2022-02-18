@@ -28,7 +28,7 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
 
         public DbConnection Connection { get; private set; }
 
-        public DbTransaction Transaction { get; private set; }
+        public DbTransaction Transaction { get; private set; } = null!;
 
         public void AddContext(DbContext context)
         {
