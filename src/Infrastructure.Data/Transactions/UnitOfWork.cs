@@ -144,12 +144,19 @@ namespace Tolitech.CodeGenerator.Infrastructure.Data.Transactions
         {
             Connection.Close();
 
-            foreach (var context in _contexts)
+            try
             {
-                context.Database.CloseConnection();
+                foreach (var context in _contexts)
+                {
+                    context.Database.CloseConnection();
 
-                if (context.Database.CurrentTransaction != null)
-                    context.Database.CurrentTransaction.Dispose();
+                    if (context.Database.CurrentTransaction != null)
+                        context.Database.CurrentTransaction.Dispose();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 
